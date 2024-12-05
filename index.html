@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>One-for-All Diffusion Models</title>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <script type="text/javascript" src="./static/slick/slick.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./static/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="./static/slick/slick-theme.css"/>
+  
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+
+
+
+<body>
+
+<!-- <section class="hero"> -->
+<section class="section">
+
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+      <div class="container has-text-centered">
+        <h2 class="title is-3 publication-title" style="max-width: 80%; margin: 0 auto;">One-for-All: Unifying One-step and Few-step Image Generation in a Single Multi-Purpose Model</h2>
+        <div class="is-size-5 publication-authors">
+          <div class="author-block"><span>Bao Quoc Tran</span><sup>1</sup></div>
+          <div class="author-block"><span>Trung Tuan Dao</span><sup>1</sup></div>
+          <div class="author-block"><span>Khoi Nguyen</span><sup>1</sup></div>
+          <div class="author-block"><span>Cuong Pham</span><sup>1,2</sup></div>
+          <div class="author-block"><span>Toan Tran</span><sup>1</sup></div>
+          <div class="author-block"><span>Anh Tran</span><sup>1</sup></div>
+        </div>
+
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><sup>1</sup>VinAI Research</span>&nbsp&nbsp
+          <span class="author-block"><sup>2</sup>PTIT</span>
+          <!-- <br>
+          <span class="author-block">&nbsp&nbsp<sup>*</sup>Equal Contribution</span>
+          <span class="author-block">&nbsp&nbsp<sup>+</sup>Project Lead</span> -->
+        </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://ofa-diffusion.github.io"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code (Coming Soon)</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://ofa-diffusion.github.io/" 
+                class="external-link button is-normal is-rounded is-dark">
+                🤗 Model (Coming Soon)
+                </a>
+              </span> -->
+              <span class="link-block">
+                <!-- TODO: Add link -->
+                <a href="https://ofa-diffusion.github.io"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Report (Coming Soon)</span>
+                </a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="container is-fullhd">
+
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-3 card" id="img1">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/28927_0.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/28927_2.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img2">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/55144_3.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/140398_0.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img3">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/157857_0.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/192378_0.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img4">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/320634_2.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/320634_3.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img5">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/348835_2.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/348835_1.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img6">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/323123_1.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/418492_0.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img7">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/392815_1.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/392815_2.png" alt="Description of the image">
+        </div>
+      </div>
+  
+  
+      <div class="column is-3 card" id="img8">
+        <div class="card-face card-face-front">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/418492_0.png" alt="Description of the image">
+        </div>
+        <div class="card-face card-face-back">
+          <img src="assets/gallery_4_step/sd15_cherrypick_sd/436522_1.png" alt="Description of the image">
+        </div>
+      </div>
+    </div>
+    <!-- <hr> -->
+    <br>  
+
+    <br><br>
+    <h2 class="title is-2, columns is-centered">Abstract</h2>
+    <hr>
+    <br>
+    Several approaches have recently focused on distilling multi-step diffusion models into fewer-step versions to balance quality with latency. While recent one-step diffusion models achieve impressive quality that can rival or even surpass their multi-step teachers, they lack the flexibility required for many downstream applications that rely on iterative generation. Conversely, existing few-step models offer integration into the well-developed downstream tasks such as personalization and editing but typically suffer from degraded image quality. This paper presents One-for-All (OFA), a novel training paradigm that bridges this gap by enabling high-quality image generation across both modes: one-step and few-step. Our approach leverages the one-step models and employs dual-space distillation, specifically in both latent and image spaces, to enhance image quality across different timestep configurations. Our experimental results on zero-shot MS-COCO2014 benchmark demonstrate state-of-the-art performance among few-step models and competitive performance compared to current one-step models while supporting downstream applications without compromising generation quality.
+
+
+    <br><br><br><br>
+    <h2 class="title is-2, columns is-centered">FID Comparison</h2>
+    <hr>
+    <br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <!-- <div class="table-container"> -->
+        <table class="table is-striped is-hoverable rounded-table is-size-12-mobile is-size-10-tablet is-size-10-desktop is-size-10-widescreen is-size-10-fullhd">
+          <tr>
+            <th style="text-align:center;">NFE</th>
+            <th style="text-align:center;">OFA</th>
+            <th style="text-align:center;">PeRFlow</th>
+            <th style="text-align:center;">SDTurbo</th>
+            <th style="text-align:center;">LCM</th>
+            <th style="text-align:center;">Hyper-SD</th>
+            <th style="text-align:center;">Flash-SD</th>
+            <th style="text-align:center;">YOSO</th>
+            <th style="text-align:center;">Lightning</th>
+        </tr>
+        <tr>
+            <td style="text-align:center;">1</td>
+            <td style="text-align:center;"><strong>8.56</strong></td>
+            <td style="text-align:center;">x</td>
+            <td style="text-align:center;">16.10</td>
+            <td style="text-align:center;">78.49</td>
+            <td style="text-align:center;">20.30</td>
+            <td style="text-align:center;">x</td>
+            <td style="text-align:center;">24.64</td>
+            <td style="text-align:center;">20.06</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;">2</td>
+            <td style="text-align:center;"><strong>8.67</strong></td>
+            <td style="text-align:center;">x</td>
+            <td style="text-align:center;">17.68</td>
+            <td style="text-align:center;">35.57</td>
+            <td style="text-align:center;">20.91</td>
+            <td style="text-align:center;">12.27</td>
+            <td style="text-align:center;">19.01</td>
+            <td style="text-align:center;">21.50</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;"><strong>8.40</strong></td>
+            <td style="text-align:center;">10.45</td>
+            <td style="text-align:center;">17.54</td>
+            <td style="text-align:center;">25.93</td>
+            <td style="text-align:center;">19.94</td>
+            <td style="text-align:center;">12.41</td>
+            <td style="text-align:center;">x</td>
+            <td style="text-align:center;">20.67</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">6</td>
+          <td style="text-align:center;"><strong>8.91</strong></td>
+          <td style="text-align:center;">10.51</td>
+          <td style="text-align:center;">x</td>
+          <td style="text-align:center;">26.61</td>
+          <td style="text-align:center;">19.73</td>
+          <td style="text-align:center;">x</td>
+          <td style="text-align:center;">x</td>
+          <td style="text-align:center;">x</td>
+        </tr>
+        </table>
+      <!-- </div> -->
+    </div>
+
+    <br><br>
+
+    <h2 class="title is-2, columns is-centered">Qualitative Results</h2>
+    <hr>
+    <br>
+
+    <div class="columns is-multiline is-mobile is-centered">
+      <!-- <div class="column is-8" style="border-top: 2px solid #ffffff;"> -->
+      <div class="column" style="max-width: 90%;">
+      <!-- <div class="column is-8" style="border-top: 2px solid #ffffff; border-bottom: 2px solid #ffffff;"> -->
+      <!-- <video controls width="auto" height="auto">
+        <source src="assets/perflow-v1.mp4" type="video/mp4">
+      </video> -->
+      <img src="assets/teaser.png" alt="Description of the image">
+      </div>
+    </div>
+
+    <!-- <br><br><br>
+    <h2 class="title is-4">Video demos for real-time generation</h2>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-3">
+        <center>fast text-to-image generation</center>
+        <video controls width="auto" height="400">
+          <source src="assets/perflow_t2i.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-1">
+      </div>
+      <div class="column is-8">
+        <center>instant multiview generation</center>
+      <video controls width="auto" height="auto">
+        <source src="assets/multiview/perflow_wonder3d.mp4" type="video/mp4">
+      </video>
+      </div>
+    </div> -->
+
+
+    <br><br>
+    <center><h3 class="title is-3">Compatibility to SD pipelines</h3></center>
+    <hr>
+    <br>
+
+    <br>
+    <h2 class="title is-4">Prompt-to-prompt</h2>
+    <br>
+
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-2">
+        <div class="image-container">
+          <button id='leftButton_p2p' class='circle-button'><i class="fas fa-play fa-flip-horizontal"></i></button>
+          <img id="p2p1" src="assets/feature_attn/p2p/p2p0.png" alt="Description of the image">
+          <h3 id="p2p1_text" class="image-prompt"></h3>
+        </div>
+      </div>
+      <div class="column is-2">
+        <img id="p2p2" src="assets/feature_attn/p2p/p2p1.png" alt="Description of the image">
+        <h3 id="p2p2_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="p2p3" src="assets/feature_attn/p2p/p2p2.png" alt="Description of the image">
+        <h3 id="p2p3_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="p2p4" src="assets/feature_attn/p2p/p2p3.png" alt="Description of the image">
+        <h3 id="p2p4_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="p2p5" src="assets/feature_attn/p2p/p2p4.png" alt="Description of the image">
+        <h3 id="p2p5_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <div class="image-container">
+          <img id="p2p6" src="assets/feature_attn/p2p/p2p5.png" alt="Description of the image">
+          <h3 id="p2p6_text" class="image-prompt"></h3>
+          <button id='rightButton_p2p' class='circle-button'><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+    <h2 class="title is-4">Null-text Inversion</h2>
+    <br>
+
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-2">
+        <div class="image-container">
+          <button id='leftButton_null' class='circle-button'><i class="fas fa-play fa-flip-horizontal"></i></button>
+          <img id="null1" src="assets/feature_attn/nulltext/null0.png" alt="Description of the image">
+          <h3 id="null1_text" class="image-prompt"></h3>
+        </div>
+      </div>
+      <div class="column is-2">
+        <img id="null2" src="assets/feature_attn/nulltext/null1.png" alt="Description of the image">
+        <h3 id="null2_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="null3" src="assets/feature_attn/nulltext/null2.png" alt="Description of the image">
+        <h3 id="null3_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="null4" src="assets/feature_attn/nulltext/null3.png" alt="Description of the image">
+        <h3 id="null4_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="null5" src="assets/feature_attn/nulltext/null4.png" alt="Description of the image">
+        <h3 id="null5_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <div class="image-container">
+          <img id="null6" src="assets/feature_attn/nulltext/null5.png" alt="Description of the image">
+          <h3 id="null6_text" class="image-prompt"></h3>
+          <button id='rightButton_null' class='circle-button'><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+
+
+    <br><br>
+    <h2 class="title is-4">IP-Adapter</h2>
+    <br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-2">
+        <center>Object</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa0.png" alt="Description of the image">
+      </div>
+      <div class="column is-2">
+        <center>Sample 1</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa1.png" alt="Description of the image">
+      </div>
+      <div class="column is-2">
+        <center>Sample 2</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa2.png" alt="Description of the image">
+      </div>
+      <div class="column is-2">
+        <center>Object</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa3.png" alt="Description of the image">
+      </div>
+      <div class="column is-2">
+        <center>Sample 1</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa4.png" alt="Description of the image">
+      </div>
+      <div class="column is-2">
+        <center>Sample 2</center>
+        <img src="assets/feature_ip_adapter-faceid/ipa5.png" alt="Description of the image">
+      </div>
+    </div>
+
+
+    <br>
+    <h2 class="title is-4">Img2Img</h2>
+    <br>
+
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-2">
+        <div class="image-container">
+          <button id='leftButton_img2img' class='circle-button'><i class="fas fa-play fa-flip-horizontal"></i></button>
+          <img id="img2img1" src="assets/feature_img2img/im2im0.png" alt="Description of the image">
+          <h3 id="img2img1_text" class="image-prompt"></h3>
+        </div>
+      </div>
+      <div class="column is-2">
+        <img id="img2img2" src="assets/feature_img2img/im2im1.png" alt="Description of the image">
+        <h3 id="img2img2_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="img2img3" src="assets/feature_img2img/im2im2.png" alt="Description of the image">
+        <h3 id="img2img3_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="img2img4" src="assets/feature_img2img/im2im3.png" alt="Description of the image">
+        <h3 id="img2img4_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <img id="img2img5" src="assets/feature_img2img/im2im4.png" alt="Description of the image">
+        <h3 id="img2img5_text" class="image-prompt"></h3>
+      </div>
+      <div class="column is-2">
+        <div class="image-container">
+          <img id="img2img6" src="assets/feature_img2img/im2im5.png" alt="Description of the image">
+          <h3 id="img2img6_text" class="image-prompt"></h3>
+          <button id='rightButton_img2img' class='circle-button'><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+
+
+    <!--
+    <br><br>
+    <center><h2 class="title is-3">Comparison with LCM</h2></center>
+    <br><br>
+    <center><h2 class="title is-5">Better compatibility with finetuned SD models</h2></center>
+    <h2 class="title is-4">Better compatibility with finetuned SD models</h2>
+    <br>
+    PeRFlow shows a smaller gap to the oracle in terms of image quality, e.g., color-style and layout. It preserves the aesthetic effect of finetuned stylized models (vividness, proper brightness and contrast). PeRFlow also supports CFG and negative prompts. One can use the well-craft negative and positive prompts provided in various finetued stylized models to generate astonishing images.
+
+    <br><br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-4">
+        <div class="image-container">
+          <center>Oracle*</center>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="image-container">
+          <center>PeRFlow</center>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="image-container">
+          <center>LCM</center>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-12">
+        <div class="image-container">
+          <button id='leftButton_better_compat' class='circle-button'><i class="fas fa-play fa-flip-horizontal"></i></button>
+          <img id="better_compat" src="assets/feature_better_compatibility/feature_better_compat1.png" alt="Description of the image">
+          <button id='rightButton_better_compat' class='circle-button'><i class="fas fa-play"></i></button>
+          <h3 id="better_compat_text" class="image-title"></h3>
+        </div>
+      </div>
+    </div>
+    <i style="font-size:12px;">*We regard the 25-step sampling results of the pretrained SD-v1.5 as oracle.</i>
+
+
+    <br><br><br>
+    <h2 class="title is-4">Better sampling diversity</h2>
+    <br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-6 padded">
+        <div class="image-container">
+          <center>PeRFlow</center>
+          <button id='leftButton_better_diversity' class='circle-button'><i class="fas fa-play fa-flip-horizontal"></i></button>
+          <img id="better_diversity1" src="assets/feature_better_diversity/feature_diversity1_perflow.png" alt="Description of the image">
+        </div>
+      </div>
+      <div class="column is-6 padded">
+        <div class="image-container">
+          <center>LCM</center>
+          <img id="better_diversity2" src="assets/feature_better_diversity/feature_diversity1_lcm.png" alt="Description of the image">
+          <button id='rightButton_better_diversity' class='circle-button'><i class="fas fa-play"></i></button>
+        </div>    
+      </div>
+    </div>
+    <i style="font-size:12px;">
+      <li>A dog playing in the garden, snow. </li>
+      <li>A boy with bright blue eyes, looking at the viewer with a toothy smile.</li>
+      <li>A man with brown skin and a beard, looking at the viewer with dark eyes. </li>
+      <li>A young woman with a crown and a masterpiece necklace, at a royal event.</li>
+    </i>
+
+
+
+    <br><br>
+    <h2 class="title is-4">Consistency when inference with different number of steps</h2>
+    As PeRFlow is essentially an ODE, increasing sampling steps will monotonically improve the image quality. Given a random seed, PeRFlow generates results sharing the similar appearance, so that users can preview many candidates via 4-step inference, then choose few ones of interest for final high-quality generation. In contrast, the results of LCM via different inference steps may look very different.
+    <br><br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-5">
+        <center>PeRFlow 4--8--16 step</center>
+        <img src="assets/feature_progressive/feature_progressive_perflow.png" alt="Description of the image">
+      </div>
+      <div class="column is-5 is-offset-1">
+        <center>LCM 4--8--16 step</center>
+        <img src="assets/feature_progressive/feature_progressive_lcm.png" alt="Description of the image">
+      </div>
+    </div>
+    -->
+
+
+
+    <br><br>
+    <hr>
+    <center><h2 class="title is-2">Method</h2></center>
+    <br><br>
+    <p>
+      Current few-step diffusion models have significant trade-offs between sampling quality and inference speed, while one-step diffusion models are able to generate high-quality images but are not compatible with Image Editing and Personalization tasks. 
+      To address these issues, we propose a new few-step diffusion model that leverages the advantages of both one-step and few-step models.
+    </p>
+    <br>
+    <p>
+      We propose One-For-All (<b>OFA</b>), a novel distillation scheme for distilling few-step models using an one-step generator as the teacher to guide in both image and latent spaces, yielding a model that supports both one-step and few-step modes with consistent quality. 
+      Our model achieves parity with one-step generators and surpasses all existing few-step models on the zero-shot MS-COCO2014 benchmark.
+    </p>
+    <br>
+    <p>
+      A full training pipeline is illustrated in the below figure.
+    </p>
+
+    <br><br>
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-8">
+        <!-- <center>Piecewisely straightening sampling trajectories via PeRFlow</center> -->
+        <img src="assets/ofa_system.png" alt="Description of the image" style="border-radius: 10px;">
+      </div>
+    </div>
+
+
+    <br>
+  
+  </div>
+
+
+
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container content is-fullhd">
+    <h2 class="title" style="color: rgb(255, 255, 255);">BibTeX</h2>
+    <pre><code>@article{bao2024oneforall,
+    title   = {One-for-All: Unifying One-step and Few-step Image Generation in a Single Multi-Purpose Model},
+    author  = {Bao, Tran and Trung, Dao and Khoi, Nguyen and Cuong, Pham and Toan, Tran and Anh, Tran},
+    year    = {2024}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="columns is-centered" style="color: rgb(0,0,0)">
+    <div class="column is-10">
+      <div class="content">
+        <p>
+            This website is built upon the <a href="https://piecewise-rectified-flow.github.io/">PeRFlow</a> project webpage.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- <script type="text/javascript" src="./static/slick/slick.min.js"></script> -->
+
+<script>
+// gallery
+const imagePools_4steps = {
+  'img1': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/28927_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/28927_2.png', 'assets/gallery_4_step/sd15_cherrypick_sd/517449_1.png'], index: 0},
+  'img2': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/55144_3.png', 'assets/gallery_4_step/sd15_cherrypick_sd/140398_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/517449_3.png'], index: 0},
+  'img3': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/157857_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/192378_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/528279_0.png'], index: 0},
+  'img4': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/320634_2.png', 'assets/gallery_4_step/sd15_cherrypick_sd/320634_3.png', 'assets/gallery_4_step/sd15_cherrypick_sd/528279_1.png'], index: 0},
+  'img5': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/348835_2.png', 'assets/gallery_4_step/sd15_cherrypick_sd/348835_1.png', 'assets/gallery_4_step/sd15_cherrypick_sd/534309_3.png'], index: 0},
+  'img6': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/323123_1.png', 'assets/gallery_4_step/sd15_cherrypick_sd/418492_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/568913_3.png'], index: 0},
+  'img7': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/392815_1.png', 'assets/gallery_4_step/sd15_cherrypick_sd/392815_2.png', 'assets/gallery_4_step/sd15_cherrypick_sd/629040_0.png'], index: 0},
+  'img8': {pool: ['assets/gallery_4_step/sd15_cherrypick_sd/418492_0.png', 'assets/gallery_4_step/sd15_cherrypick_sd/747631_1.png', 'assets/gallery_4_step/sd15_cherrypick_sd/747498_2.png'], index: 0},  
+}
+
+let ids_4steps = Object.keys(imagePools_4steps);
+
+// Shuffle ids array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+shuffleArray(ids_4steps);
+
+let currentIndex_4steps = 0;
+
+function flipCard(imagePools, id) {
+    const cardElem = document.getElementById(id);
+    const poolData = imagePools[id];
+    const newImageUrl = poolData.pool[poolData.index];
+    const backFace = cardElem.querySelector('.card-face-back img');
+    const frontFace = cardElem.querySelector('.card-face-front img');
+
+    backFace.src = newImageUrl;
+    poolData.index = (poolData.index + 1) % poolData.pool.length;
+
+    // Trigger the flip
+    cardElem.classList.add('flipped');
+    frontFace.src = newImageUrl;
+
+    // Once flip is over, remove flipped class for the next flip
+    setTimeout(() => {
+        cardElem.classList.remove('flipped');
+    }, 600); // Match the time with transition time in CSS
+}
+
+setInterval(() => {
+    let currentId_4steps = ids_4steps[currentIndex_4steps];
+    flipCard(imagePools_4steps, currentId_4steps);
+    currentIndex_4steps = (currentIndex_4steps + 1) % ids_4steps.length;
+
+}, 2000);
+</script>
+
+<script>
+
+  // img2img
+  let imgs1_img2img = ["assets/feature_img2img/im2im0.png", "assets/feature_img2img/im2im6.png", "assets/feature_img2img/im2im12.png"];
+  let imgs2_img2img = ["assets/feature_img2img/im2im1.png", "assets/feature_img2img/im2im7.png", "assets/feature_img2img/im2im13.png"];
+  let imgs3_img2img = ["assets/feature_img2img/im2im2.png", "assets/feature_img2img/im2im8.png", "assets/feature_img2img/im2im14.png"];
+  let imgs4_img2img = ["assets/feature_img2img/im2im3.png", "assets/feature_img2img/im2im9.png", "assets/feature_img2img/im2im15.png"];
+  let imgs5_img2img = ["assets/feature_img2img/im2im4.png", "assets/feature_img2img/im2im10.png", "assets/feature_img2img/im2im16.png"];
+  let imgs6_img2img = ["assets/feature_img2img/im2im5.png", "assets/feature_img2img/im2im11.png", "assets/feature_img2img/im2im17.png"];
+
+  let img2img1_text = ["a little girl with green eyes and flowers in a blue dress", 
+                        "a black dog is looking at the camera in the snow", 
+                        "a white bulldog is walking on the grass"]
+  let img2img2_text = ["a little girl with blue eyes and flowers in a blue dress", 
+                        "a black dog is looking at the camera in the rain", 
+                        "a white rat is walking on the grass"]
+  let img2img3_text = ["a colorful bird standing on a branch", 
+                        "mountain landscape with flowers and withered grass", 
+                        "a house with lightning and rain on it"]
+  let img2img4_text = ["a red bird standing on a branch", 
+                        "mountain landscape with withered grass", 
+                        "a house with rain on it"]
+  let img2img5_text = ["two birds sitting on a branch", 
+                        "three white dumplings on brown bowl", 
+                        "a glass of red drink on the beach"]
+  let img2img6_text = ["two origami birds sitting on a branch", 
+                        "three white sushi on brown bowl", 
+                        "a glass of red wine on the beach"]
+
+  let currentIndex_img2img = 0;
+
+  let leftButton_img2img = document.getElementById('leftButton_img2img');
+  let rightButton_img2img = document.getElementById('rightButton_img2img');
+
+  leftButton_img2img.addEventListener('click', function() {
+      currentIndex_img2img = (currentIndex_img2img + imgs1_img2img.length - 1) % imgs1_img2img.length;
+      updateImages_img2img();
+  });
+
+  rightButton_img2img.addEventListener('click', function() {
+      currentIndex_img2img = (currentIndex_img2img + 1) % imgs1_img2img.length; 
+      updateImages_img2img();
+  });
+
+  function updateImages_img2img() {
+      document.getElementById('img2img1').src = imgs1_img2img[currentIndex_img2img];
+      document.getElementById('img2img2').src = imgs2_img2img[currentIndex_img2img];
+      document.getElementById('img2img3').src = imgs3_img2img[currentIndex_img2img];
+      document.getElementById('img2img4').src = imgs4_img2img[currentIndex_img2img];
+      document.getElementById('img2img5').src = imgs5_img2img[currentIndex_img2img];
+      document.getElementById('img2img6').src = imgs6_img2img[currentIndex_img2img];
+
+      document.getElementById('img2img1_text').textContent = img2img1_text[currentIndex_img2img];
+      document.getElementById('img2img2_text').textContent = img2img2_text[currentIndex_img2img];
+      document.getElementById('img2img3_text').textContent = img2img3_text[currentIndex_img2img];
+      document.getElementById('img2img4_text').textContent = img2img4_text[currentIndex_img2img];
+      document.getElementById('img2img5_text').textContent = img2img5_text[currentIndex_img2img];
+      document.getElementById('img2img6_text').textContent = img2img6_text[currentIndex_img2img];
+  }
+
+  updateImages_img2img();
+
+  // p2p
+  let imgs1_p2p = ["assets/feature_attn/p2p/p2p0.png", "assets/feature_attn/p2p/p2p6.png", "assets/feature_attn/p2p/p2p12.png"];
+  let imgs2_p2p = ["assets/feature_attn/p2p/p2p1.png", "assets/feature_attn/p2p/p2p7.png", "assets/feature_attn/p2p/p2p13.png"];
+  let imgs3_p2p = ["assets/feature_attn/p2p/p2p2.png", "assets/feature_attn/p2p/p2p8.png", "assets/feature_attn/p2p/p2p14.png"];
+  let imgs4_p2p = ["assets/feature_attn/p2p/p2p3.png", "assets/feature_attn/p2p/p2p9.png", "assets/feature_attn/p2p/p2p15.png"];
+  let imgs5_p2p = ["assets/feature_attn/p2p/p2p4.png", "assets/feature_attn/p2p/p2p10.png", "assets/feature_attn/p2p/p2p16.png"];
+  let imgs6_p2p = ["assets/feature_attn/p2p/p2p5.png", "assets/feature_attn/p2p/p2p11.png", "assets/feature_attn/p2p/p2p17.png"];
+
+  let p2p1_text = ["sunset over mountains with a pink sky", 
+                    "a man is walking down a street in the rain", 
+                    "a detailed oil painting of a calm beautiful woman with stars in her hair"]
+  let p2p2_text = ["sunset over mountains with a blue sky", 
+                    "a black and white sketch of a man is walking down a street in the rain", 
+                    "a detailed oil painting of a laughing beautiful woman with stars in her hair"]
+  let p2p3_text = ["a cat wearing a pink hat", 
+                    "a black raven sits on a tree stump in the rain", 
+                    "a girl with a pink umbrella in the rain"]
+  let p2p4_text = ["a tiger wearing a pink hat", 
+                    "a white raven sits on a tree stump in the rain", 
+                    "a girl with a yellow umbrella in the rain"]
+  let p2p5_text = ["a crow standing on the snow", 
+                    "a park bench and red trees in a flat style", 
+                    "an empty room with a view of the beach"]
+  let p2p6_text = ["a crow standing on the grass", 
+                    "a park bench and pink trees in a flat style", 
+                    "black and white ink painting of an empty room with a view of the beach"]
+
+  let currentIndex_p2p = 0;
+
+  let leftButton_p2p = document.getElementById('leftButton_p2p');
+  let rightButton_p2p = document.getElementById('rightButton_p2p');
+
+  leftButton_p2p.addEventListener('click', function() {
+      currentIndex_p2p = (currentIndex_p2p + imgs1_p2p.length - 1) % imgs1_p2p.length;
+      updateImages_p2p();
+  });
+
+  rightButton_p2p.addEventListener('click', function() {
+      currentIndex_p2p = (currentIndex_p2p + 1) % imgs1_p2p.length; 
+      updateImages_p2p();
+  });
+
+  function updateImages_p2p() {
+      document.getElementById('p2p1').src = imgs1_p2p[currentIndex_p2p];
+      document.getElementById('p2p2').src = imgs2_p2p[currentIndex_p2p];
+      document.getElementById('p2p3').src = imgs3_p2p[currentIndex_p2p];
+      document.getElementById('p2p4').src = imgs4_p2p[currentIndex_p2p];
+      document.getElementById('p2p5').src = imgs5_p2p[currentIndex_p2p];
+      document.getElementById('p2p6').src = imgs6_p2p[currentIndex_p2p];
+
+      document.getElementById('p2p1_text').textContent = p2p1_text[currentIndex_p2p];
+      document.getElementById('p2p2_text').textContent = p2p2_text[currentIndex_p2p];
+      document.getElementById('p2p3_text').textContent = p2p3_text[currentIndex_p2p];
+      document.getElementById('p2p4_text').textContent = p2p4_text[currentIndex_p2p];
+      document.getElementById('p2p5_text').textContent = p2p5_text[currentIndex_p2p];
+      document.getElementById('p2p6_text').textContent = p2p6_text[currentIndex_p2p];
+  }
+
+  updateImages_p2p();
+
+  // nulltext inversion
+  let imgs1_null = ["assets/feature_attn/nulltext/null0.png", "assets/feature_attn/nulltext/null6.png", "assets/feature_attn/nulltext/null12.png"];
+  let imgs2_null = ["assets/feature_attn/nulltext/null1.png", "assets/feature_attn/nulltext/null7.png", "assets/feature_attn/nulltext/null13.png"];
+  let imgs3_null = ["assets/feature_attn/nulltext/null2.png", "assets/feature_attn/nulltext/null8.png", "assets/feature_attn/nulltext/null14.png"];
+  let imgs4_null = ["assets/feature_attn/nulltext/null3.png", "assets/feature_attn/nulltext/null9.png", "assets/feature_attn/nulltext/null15.png"];
+  let imgs5_null = ["assets/feature_attn/nulltext/null4.png", "assets/feature_attn/nulltext/null10.png", "assets/feature_attn/nulltext/null16.png"];
+  let imgs6_null = ["assets/feature_attn/nulltext/null5.png", "assets/feature_attn/nulltext/null11.png", "assets/feature_attn/nulltext/null17.png"];
+
+  let null1_text = ["a tiger swimming in a pond of green algae", 
+                    "a colorful bird standing on a branch", 
+                    "a pirate ship is in the middle of a stormy ocean"]
+  let null2_text = ["a dog swimming in a pond of green algae", 
+                    "a red bird standing on a branch", 
+                    "a pirate ship is in the middle of a stormy ocean close-up shot"]
+  let null3_text = ["watercolor painting of a woman with red lipstick wearing flowers in her hair", 
+                    "the village in the game, the witcher 3", 
+                    "a green lizard is sitting on a branch"]
+  let null4_text = ["watercolor painting of a woman with purple lipstick wearing flowers in her hair", 
+                    "watercolor of the village in the game, the witcher 3", 
+                    "a brown lizard is sitting on a branch"]
+  let null5_text = ["a panda bear close his mouth", 
+                    "peaceful sea", 
+                    "a white kitten sitting on a leopard print blanket"]
+  let null6_text = ["a panda bear open his mouth", 
+                    "rough sea", 
+                    "a yellow kitten sitting on a leopard print blanket"]
+
+  let currentIndex_null = 0;
+
+  let leftButton_null = document.getElementById('leftButton_null');
+  let rightButton_null = document.getElementById('rightButton_null');
+
+  leftButton_null.addEventListener('click', function() {
+      currentIndex_null = (currentIndex_null + imgs1_null.length - 1) % imgs1_null.length;
+      updateImages_null();
+  });
+
+  rightButton_null.addEventListener('click', function() {
+      currentIndex_null = (currentIndex_null + 1) % imgs1_null.length; 
+      updateImages_null();
+  });
+
+  function updateImages_null() {
+      document.getElementById('null1').src = imgs1_null[currentIndex_null];
+      document.getElementById('null2').src = imgs2_null[currentIndex_null];
+      document.getElementById('null3').src = imgs3_null[currentIndex_null];
+      document.getElementById('null4').src = imgs4_null[currentIndex_null];
+      document.getElementById('null5').src = imgs5_null[currentIndex_null];
+      document.getElementById('null6').src = imgs6_null[currentIndex_null];
+
+      document.getElementById('null1_text').textContent = null1_text[currentIndex_null];
+      document.getElementById('null2_text').textContent = null2_text[currentIndex_null];
+      document.getElementById('null3_text').textContent = null3_text[currentIndex_null];
+      document.getElementById('null4_text').textContent = null4_text[currentIndex_null];
+      document.getElementById('null5_text').textContent = null5_text[currentIndex_null];
+      document.getElementById('null6_text').textContent = null6_text[currentIndex_null];
+  }
+
+  updateImages_null();
+
+</script>
+
+</body>
+
+
+
+
+</html>
+
+
+<style>
+  .videoContainer {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .videoContainer video.mainVideo {
+    width: 100%;
+    height: auto;
+  }
+
+  .videoContainer video.overlayVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%; /* Adjust this value to make video2 smaller or larger */
+  }
+</style>
+
+
+<style>
+  .rounded-table {
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: 10px; /* Adjust this value for different corner radii */
+  }
+  
+  .rounded-table tr:first-child th:first-child {
+      border-top-left-radius: 10px; /* Same radius as .rounded-table border-radius */
+  }
+  
+  .rounded-table tr:first-child th:last-child {
+      border-top-right-radius: 10px; /* Same radius as .rounded-table border-radius */
+  }
+  
+  .rounded-table tr:last-child td:first-child {
+      border-bottom-left-radius: 10px; /* Same radius as .rounded-table border-radius */
+  }
+  
+  .rounded-table tr:last-child td:last-child {
+      border-bottom-right-radius: 10px; /* Same radius as .rounded-table border-radius */
+  }
+  </style>
+
+
+
